@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <h2 class="mb-4"><i class="fas fa-chart-bar"></i> Reports & Analytics</h2>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-dollar-sign"></i> Total Revenue</h5>
+                    <h2>{{ "{:,.0f}".format(total_revenue) }} ៛</h2>
+                    <small>From approved and completed bookings</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Status Summary -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-pie-chart"></i> Bookings by Status</h5>
+                </div>
+                <div class="card-body">
+                    {% if status_summary %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for status, count in status_summary %}
+                            <tr>
+                                <td>
+                                    {% if status == 'pending' %}
+                                    <span class="badge bg-warning">Pending</span>
+                                    {% elif status == 'approved' %}
+                                    <span class="badge bg-success">Approved</span>
+                                    {% elif status == 'cancelled' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                    {% elif status == 'completed' %}
+                                    <span class="badge bg-info">Completed</span>
+                                    {% endif %}
+                                </td>
+                                <td><strong>{{ count }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No booking data available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-star"></i> Most Popular Cars</h5>
+                </div>
+                <div class="card-body">
+                    {% if popular_cars %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Car</th>
+                                <th>Bookings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for car in popular_cars %}
+                            <tr>
+                                <td>{{ car.brand }} {{ car.model }}</td>
+                                <td><span class="badge bg-primary">{{ car.bookings }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No booking data available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Bookings (Last 7 Days) -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-calendar-week"></i> Daily Bookings & Revenue (Last 7 Days)</h5>
+                </div>
+                <div class="card-body">
+                    {% if daily_bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Bookings</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for daily in daily_bookings %}
+                                <tr>
+                                    <td>{{ daily.date.strftime('%d/%m/%Y') if daily.date else 'N/A' }}</td>
+                                    <td><span class="badge bg-info">{{ daily.count }}</span></td>
+                                    <td><strong>{{ "{:,.0f}".format(daily.revenue if daily.revenue else 0) }} ៛</strong></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No booking data for the last 7 days.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
