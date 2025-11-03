@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Car Rental Cambodia{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-5">Contact Us</h2>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-map-marker-alt text-primary"></i> Our Locations</h4>
+                    
+                    <div class="mb-4">
+                        <h6><strong>Phnom Penh Office</strong></h6>
+                        <p class="text-muted">
+                            123 Monivong Blvd, Khan Daun Penh<br>
+                            Phnom Penh, Cambodia<br>
+                            <i class="fas fa-phone"></i> +855 12 345 678
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6><strong>Siem Reap Office</strong></h6>
+                        <p class="text-muted">
+                            456 Airport Road, Siem Reap<br>
+                            Siem Reap, Cambodia<br>
+                            <i class="fas fa-phone"></i> +855 12 345 679
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6><strong>Sihanoukville Office</strong></h6>
+                        <p class="text-muted">
+                            789 Ekareach Street, Sihanoukville<br>
+                            Sihanoukville, Cambodia<br>
+                            <i class="fas fa-phone"></i> +855 12 345 680
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-headset text-primary"></i> Get In Touch</h4>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-clock text-primary"></i> Business Hours</h6>
+                        <p class="text-muted">
+                            Monday - Friday: 8:00 AM - 6:00 PM<br>
+                            Saturday: 9:00 AM - 5:00 PM<br>
+                            Sunday: 10:00 AM - 4:00 PM
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6><i class="fas fa-phone text-primary"></i> Phone Support</h6>
+                        <p class="text-muted">
+                            Main Line: +855 12 345 678<br>
+                            WhatsApp: +855 12 345 678<br>
+                            Available 24/7 for emergencies
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6><i class="fas fa-envelope text-primary"></i> Email</h6>
+                        <p class="text-muted">
+                            General Inquiries: info@carrental.com.kh<br>
+                            Support: support@carrental.com.kh<br>
+                            Bookings: bookings@carrental.com.kh
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6><i class="fab fa-telegram text-primary"></i> Telegram</h6>
+                        <p class="text-muted">
+                            Chat with us: <a href="https://t.me/CarRentalKH" target="_blank">@CarRentalKH</a>
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6><i class="fas fa-share-alt text-primary"></i> Social Media</h6>
+                        <p>
+                            <a href="#" class="btn btn-outline-primary btn-sm me-2">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                            <a href="#" class="btn btn-outline-info btn-sm">
+                                <i class="fab fa-telegram"></i> Telegram
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-question-circle text-primary"></i> Frequently Asked Questions</h4>
+                    
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    What documents do I need to rent a car?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You need a valid driver's license, national ID or passport, and a deposit (refundable).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    How do I cancel my booking?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can cancel your booking from your account dashboard before the start date at no charge.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Can I extend my rental period?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Contact us via phone or Telegram to extend your rental if the car is available.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Do you provide insurance?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, all our vehicles come with basic insurance. Additional coverage is available upon request.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
