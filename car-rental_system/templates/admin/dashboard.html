@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Car Rental Cambodia{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <h2 class="mb-4"><i class="fas fa-dashboard"></i> Admin Dashboard</h2>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Total Cars</h6>
+                            <h2>{{ total_cars }}</h2>
+                        </div>
+                        <i class="fas fa-car fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Available Cars</h6>
+                            <h2>{{ available_cars }}</h2>
+                        </div>
+                        <i class="fas fa-check-circle fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Total Bookings</h6>
+                            <h2>{{ total_bookings }}</h2>
+                        </div>
+                        <i class="fas fa-calendar-check fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Pending Bookings</h6>
+                            <h2>{{ pending_bookings }}</h2>
+                        </div>
+                        <i class="fas fa-clock fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-bolt"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('admin_add_car') }}" class="btn btn-primary me-2">
+                        <i class="fas fa-plus"></i> Add New Car
+                    </a>
+                    <a href="{{ url_for('admin_bookings', status='pending') }}" class="btn btn-warning me-2">
+                        <i class="fas fa-clock"></i> View Pending Bookings
+                    </a>
+                    <a href="{{ url_for('admin_reports') }}" class="btn btn-info me-2">
+                        <i class="fas fa-chart-bar"></i> View Reports
+                    </a>
+                    <a href="{{ url_for('admin_customers') }}" class="btn btn-success">
+                        <i class="fas fa-users"></i> Manage Customers
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-list"></i> Recent Bookings</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Car</th>
+                                    <th>Dates</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in recent_bookings %}
+                                <tr>
+                                    <td>#{{ booking.id }}</td>
+                                    <td>{{ booking.customer.full_name }}</td>
+                                    <td>{{ booking.car.brand }} {{ booking.car.model }}</td>
+                                    <td>{{ booking.start_date.strftime('%d/%m/%Y') }} - {{ booking.end_date.strftime('%d/%m/%Y') }}</td>
+                                    <td>{{ "{:,.0f}".format(booking.total_price) }} ៛</td>
+                                    <td>
+                                        {% if booking.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% elif booking.status == 'approved' %}
+                                        <span class="badge bg-success">Approved</span>
+                                        {% elif booking.status == 'cancelled' %}
+                                        <span class="badge bg-danger">Cancelled</span>
+                                        {% elif booking.status == 'completed' %}
+                                        <span class="badge bg-info">Completed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if booking.status == 'pending' %}
+                                        <form method="POST" action="{{ url_for('admin_approve_booking', booking_id=booking.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{{ url_for('admin_bookings') }}" class="btn btn-outline-primary">View All Bookings</a>
+                    {% else %}
+                    <p class="text-muted">No recent bookings.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

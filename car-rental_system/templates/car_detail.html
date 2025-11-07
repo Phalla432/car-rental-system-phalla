@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}{{ car.brand }} {{ car.model }} - Car Rental Cambodia{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('cars') }}">Cars</a></li>
+            <li class="breadcrumb-item active">{{ car.brand }} {{ car.model }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='uploads/cars/' + car.image_url) }}" 
+                 class="img-fluid rounded shadow" alt="{{ car.brand }} {{ car.model }}"
+                 onerror="this.src='{{ url_for('static', filename='img/default-car.jpg') }}'">
+        </div>
+        <div class="col-md-6">
+            <span class="badge bg-primary mb-2">{{ car.category }}</span>
+            {% if car.is_available %}
+            <span class="badge bg-success mb-2">Available</span>
+            {% else %}
+            <span class="badge bg-danger mb-2">Not Available</span>
+            {% endif %}
+            
+            <h1 class="mb-3">{{ car.brand }} {{ car.model }}</h1>
+            <h2 class="text-primary mb-4">{{ "{:,.0f}".format(car.price_per_day) }} ៛ <small class="text-muted">per day</small></h2>
+            
+            <div class="car-specs mb-4">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <i class="fas fa-users text-primary"></i>
+                        <strong>Seats:</strong> {{ car.seat_capacity }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <i class="fas fa-cog text-primary"></i>
+                        <strong>Transmission:</strong> {{ car.transmission }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <i class="fas fa-gas-pump text-primary"></i>
+                        <strong>Fuel:</strong> {{ car.fuel_type }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <i class="fas fa-calendar text-primary"></i>
+                        <strong>Year:</strong> {{ car.year }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <i class="fas fa-id-card text-primary"></i>
+                        <strong>Plate:</strong> {{ car.license_plate }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Description</h5>
+                <p>{{ car.description or 'No description available.' }}</p>
+            </div>
+
+            {% if current_user.is_authenticated and not current_user.is_admin and car.is_available %}
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> Book This Car</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('book_car', car_id=car.id) }}">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.start_date.label(class="form-label") }}
+                            {{ form.start_date(class="form-control", min=today) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.end_date.label(class="form-label") }}
+                            {{ form.end_date(class="form-control", min=today) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.notes.label(class="form-label") }}
+                            {{ form.notes(class="form-control", rows=3, placeholder="Any special requests or notes...") }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-check"></i> Book Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% elif not current_user.is_authenticated %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Please <a href="{{ url_for('login') }}">login</a> to book this car.
+            </div>
+            {% elif not car.is_available %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> This car is currently not available for booking.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

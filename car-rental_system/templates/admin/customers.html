@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Customers - Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <h2 class="mb-4"><i class="fas fa-users"></i> Manage Customers</h2>
+
+    {% if customers.items %}
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Total Bookings</th>
+                            <th>Registered Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers.items %}
+                        <tr>
+                            <td>#{{ customer.id }}</td>
+                            <td>{{ customer.full_name }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>
+                                <span class="badge bg-primary">{{ customer.bookings.count() }}</span>
+                            </td>
+                            <td>{{ customer.created_at.strftime('%d/%m/%Y') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if customers.pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-3">
+        <ul class="pagination justify-content-center">
+            {% if customers.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('admin_customers', page=customers.prev_num) }}">Previous</a>
+            </li>
+            {% endif %}
+            
+            {% for page_num in customers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    <li class="page-item {% if page_num == customers.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('admin_customers', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if customers.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('admin_customers', page=customers.next_num) }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> No customers registered yet.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
